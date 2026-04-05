@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>جميع الوظائف | وظيفتي</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+
+  <nav class="bg-white shadow p-4 flex justify-between items-center px-6">
+    <a href="index.html" class="text-2xl font-bold text-blue-700">وظيفتي</a>
+    <div id="userNav"></div>
+  </nav>
+
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">جميع الوظائف</h1>
+    <div class="flex flex-wrap gap-4 mb-8">
+      <input type="text" id="searchInput" placeholder="ابحث عن وظيفة..." class="border p-2 rounded w-full md:w-1/3">
+      <select id="industryFilter" class="border p-2 rounded">
+        <option value="">كل المجالات</option>
+        <option value="تقنية">تقنية</option>
+        <option value="تسويق">تسويق</option>
+        <option value="هندسة">هندسة</option>
+        <option value="موارد بشرية">موارد بشرية</option>
+      </select>
+    </div>
+    <div id="jobsList" class="grid md:grid-cols-2 gap-6"></div>
+  </div>
+
+  <script src="utils.js"></script>
+  <script src="auth.js"></script>
+  <script src="jobs.js"></script>
+</body>
+</html>

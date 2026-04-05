@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الباحث عن عمل | Nexthire</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .skill-tag {
+      display: inline-block;
+      background-color: #e0e7ff;
+      color: #1e40af;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin: 0.25rem;
+      transition: all 0.3s ease;
+    }
+    .skill-tag:hover {
+      background-color: #3b82f6;
+      color: white;
+      transform: scale(1.05);
+    }
+    .empty-skills {
+      text-align: center;
+      padding: 2rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <div class="max-w-5xl mx-auto p-6">
+    
+    <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow">
+      <div>
+        <h1 class="text-2xl font-bold text-blue-700">مرحباً بك في لوحة المستخدم</h1>
+        <p class="text-gray-500 text-sm mt-1">إدارة ملفك الشخصي ومتابعة طلباتك</p>
+      </div>
+      <a href="index.html" id="logoutUserBtn" class="text-red-500 hover:text-red-700 transition">
+        <i class="fas fa-sign-out-alt ml-1"></i> خروج
+      </a>
+    </div>
+
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl shadow mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <i class="fas fa-code text-2xl text-blue-600"></i>
+        <h2 class="text-xl font-bold text-gray-800">🎯 مهاراتي المخزنة</h2>
+        <span id="skillsCount" class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+      </div>
+      <div id="skillsContainer" class="flex flex-wrap gap-2 min-h-[80px]">
+        <div class="empty-skills w-full text-center">
+          <i class="fas fa-spinner fa-spin text-blue-500"></i> جاري تحميل المهارات...
+        </div>
+      </div>
+      <p class="text-xs text-gray-500 mt-3">
+        <i class="fas fa-info-circle ml-1"></i> يمكنك إضافة أو تعديل المهارات من خلال نموذج "البيانات الشخصية" أدناه
+      </p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow mb-6">
+      <div class="flex items-center gap-3 mb-4 border-b pb-3">
+        <i class="fas fa-user-edit text-2xl text-blue-600"></i>
+        <h2 class="text-xl font-bold text-gray-800">البيانات الشخصية</h2>
+      </div>
+      <form id="personalForm">
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">
+            <i class="fas fa-user ml-1"></i> الاسم الكامل
+          </label>
+          <input type="text" id="fullName" placeholder="الاسم الكامل" 
+                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">
+            <i class="fas fa-tags ml-1"></i> المهارات
+          </label>
+          <textarea id="skills" placeholder="أدخل مهاراتك مفصولة بفاصلة (مثال: JavaScript, React, Node.js)" 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" rows="3"></textarea>
+          <p class="text-xs text-gray-500 mt-1">
+            <i class="fas fa-lightbulb ml-1"></i> نصيحة: أضف مهاراتك الأساسية لزيادة فرصك في الحصول على وظيفة مناسبة
+          </p>
+        </div>
+        <button type="submit" 
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition transform hover:scale-105 shadow-md">
+          <i class="fas fa-save ml-1"></i> حفظ البيانات
+        </button>
+      </form>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow mb-6">
+      <div class="flex items-center gap-3 mb-4 border-b pb-3">
+        <i class="fas fa-briefcase text-2xl text-green-600"></i>
+        <h2 class="text-xl font-bold text-gray-800">الوظائف المتاحة</h2>
+      </div>
+      <div id="availableJobs">
+        <div class="text-center py-10 text-gray-400">
+          <i class="fas fa-spinner fa-spin text-2xl"></i>
+          <p class="mt-2">جاري تحميل الوظائف...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow">
+      <div class="flex items-center gap-3 mb-4 border-b pb-3">
+        <i class="fas fa-file-alt text-2xl text-orange-600"></i>
+        <h2 class="text-xl font-bold text-gray-800">حالة طلبات التوظيف</h2>
+      </div>
+      <div id="applicationStatus">
+        <div class="text-center py-10 text-gray-400">
+          <i class="fas fa-spinner fa-spin text-2xl"></i>
+          <p class="mt-2">جاري تحميل الطلبات...</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="utils.js"></script>
+  <script src="auth.js"></script>
+  <script src="user-dashboard.js"></script>
+</body>
+</html>

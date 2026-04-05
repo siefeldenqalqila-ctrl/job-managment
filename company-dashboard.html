@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم الشركة | Nexthire</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .tab-active {
+      background-color: #3b82f6;
+      color: white;
+    }
+    .tab-inactive {
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+    .tab-inactive:hover {
+      background-color: #e5e7eb;
+    }
+    .stat-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .pending-count {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <nav class="bg-white shadow-sm px-6 py-3 flex justify-between items-center">
+    <div class="text-2xl font-bold text-blue-700">Nexthire</div>
+    <div>
+      <span id="companyNameDisplay" class="text-gray-700 ml-4"></span>
+      <button id="logoutBtn" class="text-red-500 hover:text-red-700"><i class="fas fa-sign-out-alt"></i> خروج</button>
+    </div>
+  </nav>
+
+  <div class="container mx-auto px-4 py-6">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      
+      <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg p-6 text-white stat-card">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-blue-100 text-sm mb-1">إجمالي المستخدمين</p>
+            <p id="totalUsersCount" class="text-3xl font-bold">0</p>
+            <p class="text-blue-100 text-xs mt-2">منصة Nexthire</p>
+          </div>
+          <div class="bg-white/20 rounded-full p-3">
+            <i class="fas fa-users text-2xl"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg p-6 text-white stat-card">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-green-100 text-sm mb-1">وظائفي المنشورة</p>
+            <p id="myJobsCount" class="text-3xl font-bold">0</p>
+            <p class="text-green-100 text-xs mt-2">وظيفة منشورة</p>
+          </div>
+          <div class="bg-white/20 rounded-full p-3">
+            <i class="fas fa-briefcase text-2xl"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-lg p-6 text-white stat-card">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-purple-100 text-sm mb-1">إجمالي المتقدمين</p>
+            <p id="totalApplicantsCount" class="text-3xl font-bold">0</p>
+            <p class="text-purple-100 text-xs mt-2">على جميع وظائفي</p>
+          </div>
+          <div class="bg-white/20 rounded-full p-3">
+            <i class="fas fa-user-graduate text-2xl"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl shadow-lg p-6 text-white stat-card">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-yellow-100 text-sm mb-1">بانتظار المراجعة</p>
+            <p id="pendingApplicantsCount" class="text-3xl font-bold pending-count">0</p>
+            <p class="text-yellow-100 text-xs mt-2">بحاجة لقبول أو رفض</p>
+          </div>
+          <div class="bg-white/20 rounded-full p-3">
+            <i class="fas fa-clock text-2xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h3 class="font-bold text-gray-700 mb-3 flex items-center gap-2">
+          <i class="fas fa-chart-pie text-blue-500"></i>
+          نسبة القبول والرفض
+        </h3>
+        <div class="flex items-center gap-4">
+          <div class="flex-1 text-center">
+            <div class="text-2xl font-bold text-green-600" id="acceptedPercent">0%</div>
+            <div class="text-xs text-gray-500">مقبول</div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+              <div id="acceptedBar" class="bg-green-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="flex-1 text-center">
+            <div class="text-2xl font-bold text-red-600" id="rejectedPercent">0%</div>
+            <div class="text-xs text-gray-500">مرفوض</div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+              <div id="rejectedBar" class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="flex-1 text-center">
+            <div class="text-2xl font-bold text-yellow-600" id="pendingPercent">0%</div>
+            <div class="text-xs text-gray-500">قيد المراجعة</div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+              <div id="pendingBar" class="bg-yellow-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-2xl shadow p-6 lg:col-span-2">
+        <h3 class="font-bold text-gray-700 mb-3 flex items-center gap-2">
+          <i class="fas fa-chart-line text-blue-500"></i>
+          ملخص سريع
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-2xl font-bold text-green-600" id="summaryAccepted">0</div>
+            <div class="text-xs text-gray-500">تم قبولهم</div>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-2xl font-bold text-red-600" id="summaryRejected">0</div>
+            <div class="text-xs text-gray-500">تم رفضهم</div>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-2xl font-bold text-yellow-600" id="summaryPending">0</div>
+            <div class="text-xs text-gray-500">بانتظار المراجعة</div>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-2xl font-bold text-purple-600" id="summaryTotal">0</div>
+            <div class="text-xs text-gray-500">إجمالي المتقدمين</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <div class="flex flex-wrap border-b">
+        <button data-tab="info" class="tab-btn px-5 py-3 text-sm font-medium transition-colors tab-active">بيانات الشركة</button>
+        <button data-tab="post" class="tab-btn px-5 py-3 text-sm font-medium transition-colors tab-inactive">نشر وظيفة</button>
+        <button data-tab="manage" class="tab-btn px-5 py-3 text-sm font-medium transition-colors tab-inactive">إدارة الوظائف</button>
+        <button data-tab="applicants" class="tab-btn px-5 py-3 text-sm font-medium transition-colors tab-inactive">المتقدمون</button>
+      </div>
+
+      <div class="p-6">
+        <div id="infoTab" class="tab-pane">
+          <h3 class="text-xl font-bold mb-4">بيانات الشركة</h3>
+          <form id="companyInfoForm">
+            <input type="text" id="companyName" placeholder="اسم الشركة" class="w-full mb-3 p-2 border rounded">
+            <input type="text" id="industry" placeholder="مجال الشركة" class="w-full mb-3 p-2 border rounded">
+            <input type="text" id="location" placeholder="الموقع" class="w-full mb-3 p-2 border rounded">
+            <textarea id="description" placeholder="وصف الشركة" class="w-full mb-3 p-2 border rounded"></textarea>
+            <input type="email" id="contactEmail" placeholder="البريد الإلكتروني" class="w-full mb-3 p-2 border rounded">
+            <input type="tel" id="phone" placeholder="رقم الهاتف" class="w-full mb-3 p-2 border rounded">
+            <input type="url" id="website" placeholder="الموقع الإلكتروني" class="w-full mb-3 p-2 border rounded">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">حفظ البيانات</button>
+          </form>
+        </div>
+
+        <div id="postTab" class="tab-pane hidden">
+          <h3 class="text-xl font-bold mb-4">نشر وظيفة جديدة</h3>
+          <form id="postJobForm">
+            <input type="text" id="jobTitle" placeholder="عنوان الوظيفة" class="w-full mb-3 p-2 border rounded" required>
+            <textarea id="jobDesc" placeholder="وصف الوظيفة" class="w-full mb-3 p-2 border rounded" required></textarea>
+            <input type="text" id="jobIndustry" placeholder="مجال الوظيفة" class="w-full mb-3 p-2 border rounded">
+            <input type="text" id="jobLocation" placeholder="مكان العمل" class="w-full mb-3 p-2 border rounded">
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">نشر الوظيفة</button>
+          </form>
+        </div>
+
+        <div id="manageTab" class="tab-pane hidden">
+          <h3 class="text-xl font-bold mb-4">الوظائف المنشورة</h3>
+          <div id="companyJobsList"></div>
+        </div>
+
+        <div id="applicantsTab" class="tab-pane hidden">
+          <h3 class="text-xl font-bold mb-4">المتقدمون على الوظائف</h3>
+          <div id="applicantsList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="utils.js"></script>
+  <script src="auth.js"></script>
+  <script src="company-dashboard.js"></script>
+</body>
+</html>
